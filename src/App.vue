@@ -7,7 +7,16 @@
         <h3>An unlimited tree view component for vue.js 2.0</h3>
       </div>
     </header>
-    <tree-vue :items="places" styling="dark" letters @drag-and-drop="dragged"></tree-vue>
+    <label class="flags"><input type="checkbox" v-model="letters" />Use Alphabetical head letters</label>
+    <label class="flags"><input type="checkbox" v-model="dark" />Use a dark styling</label>
+    <div class="last-event">{{ lastEvent }}</div>
+    <tree-vue :items="places"
+              :styling="dark ? 'dark' : 'light'"
+              :letters="letters"
+              @open-item="open"
+              @close-item="close"
+              @drag-and-drop="dragged">
+    </tree-vue>
    </div>
 </template>
 
@@ -20,6 +29,9 @@ export default {
   components: { TreeVue },
   data () {
     return {
+      lastEvent: 'no event yet.',
+      letters: false,
+      dark: false,
       places: {}
     }
   },
@@ -40,7 +52,14 @@ export default {
           break
         }
       }
+      this.lastEvent = `moved item n° ${source.id} (${source.name}) from n° ${oldParent.id} (${oldParent.name}) to n° ${newParent.id} (${newParent.name})`
       // TODO: no need to update in the main tree here, but it has to be done in the case of a state manager
+    },
+    open (item) {
+      this.lastEvent = `Opened item n° ${item.id} (${item.name})`
+    },
+    close (item) {
+      this.lastEvent = `Closed item n° ${item.id} (${item.name})`
     },
     /**
      * Returns the node with the given id in the given tree
@@ -109,5 +128,21 @@ export default {
     img {
       margin-right: 2rem;
     }
+  }
+
+  .flags {
+    display: block;
+    margin-bottom: 1rem;
+
+    input[type=checkbox] {
+      margin-right: 1rem;
+    }
+  }
+
+  .last-event {
+    margin: 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-style: italic;
   }
 </style>

@@ -61,6 +61,7 @@ export default {
     },
     toggleItem (item) {
       this.$set(this.opened, item.id, (!this.opened[item.id]))
+      this.$emit(this.opened[item.id] ? 'open-item' : 'close-item', item)
     },
     bubble (dragData) {
       this.$emit('drag-and-drop', dragData)
