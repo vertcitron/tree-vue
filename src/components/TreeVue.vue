@@ -9,11 +9,10 @@
 
 <script>
 import SubtreeVue from './SubtreeVue'
-import Icon from 'vue-awesome/components/Icon'
 
 export default {
   name: 'TreeVue',
-  components: { SubtreeVue, Icon },
+  components: { SubtreeVue },
   props: {
     items: { type: Array, default: () => [] },
     letters: { type: Boolean, default: false },
